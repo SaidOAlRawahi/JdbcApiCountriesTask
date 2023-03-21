@@ -13,7 +13,7 @@ public class Main {
 		Scanner sc = new Scanner(System.in);
 		boolean programIsActive = true;
 		while (programIsActive) {
-			System.out.println("\nSelect an option");
+			System.out.println("\nSelect An Option");
 			System.out.println("1- Fetch Countries From API");
 			System.out.println("2- Print Countries From API");
 			System.out.println("3- DB Options");
@@ -34,12 +34,16 @@ public class Main {
 				if (countries != null) {
 					printCountriesDetails(countries);
 				}
+				else {
+					System.out.println("There Are No Fetched Countries, Please Fetch Them First!");
+				}
 				break;
 
 			case "3":
 				break;
 
 			case "4":
+				callFileOptionsMenu();
 				break;
 
 			case "5":
@@ -52,6 +56,13 @@ public class Main {
 			}
 		}
 		System.out.println("GOODBYE");
+	}
+
+	
+	static void callFileOptionsMenu() {
+		FileOptionsMenu menu = new FileOptionsMenu();
+		
+		menu.showMenu();
 	}
 
 	static void printCountriesDetails(Country[] countries) {
@@ -114,13 +125,99 @@ public class Main {
 					System.out.println("\t" + c);
 				}
 			}
-			
+
 			System.out.println("Alt Spellings: ");
-			for(String s:i.altSpellings) {
-				System.out.println("\t"+s);
+			for (String s : i.altSpellings) {
+				System.out.println("\t" + s);
 			}
-			
-			
+
+			System.out.println("Region: " + i.region);
+			System.out.println("Sub-Region: " + i.subregion);
+
+			if (i.languages != null) {
+				System.out.println("Languages: ");
+				for (String key : i.languages.keySet()) {
+					System.out.println("\t" + key + ": " + i.languages.get(key));
+				}
+			}
+
+			System.out.println("Translations: ");
+			for (String key : i.translations.keySet()) {
+				System.out.println("\t" + key + ": ");
+				System.out.println("\t\tOfficial: " + i.translations.get(key).official);
+				System.out.println("\t\tCommon: " + i.translations.get(key).common);
+			}
+
+			System.out.println("Latitude & Longitude: ");
+			for (float l : i.latlng) {
+				System.out.println("\t " + l);
+			}
+			System.out.println("Land Locked: " + i.landlocked);
+
+			if (i.borders != null) {
+				System.out.println("Borders: ");
+				for (String b : i.borders) {
+					System.out.println("\t" + b);
+				}
+			}
+			System.out.println("Area: " + i.area);
+
+			if (i.demonyms != null) {
+				System.out.println("Demonyms: ");
+				for (String key : i.demonyms.keySet()) {
+					System.out.println("\t" + key + ": ");
+					System.out.println("\t\tF: " + i.demonyms.get(key).f);
+					System.out.println("\t\tF: " + i.demonyms.get(key).f);
+				}
+			}
+
+			System.out.println("Flag: " + i.flag);
+			System.out.println("\tGoogle Maps: " + i.maps.googleMaps);
+			System.out.println("\tOpen Street Maps: " + i.maps.openStreetMaps);
+			System.out.println("Population: " + i.population);
+			System.out.println("Fifa: " + i.fifa);
+
+			System.out.println("Car: ");
+			if (i.car.signs != null) {
+				System.out.println("\tSigns:");
+				for (String s : i.car.signs) {
+					System.out.println("\t\t" + s);
+				}
+			}
+			System.out.println("\tSide: " + i.car.side);
+
+			System.out.println("Time Zones:");
+			for (String t : i.timezones) {
+				System.out.println("\t" + t);
+			}
+
+			System.out.println("Continents:");
+			for (String c : i.continents) {
+				System.out.println("\t" + c);
+			}
+
+			System.out.println("Flags: ");
+			System.out.println("\tpng: " + i.flags.png);
+			System.out.println("\tsvg: " + i.flags.svg);
+			System.out.println("\talt: " + i.flags.alt);
+
+			System.out.println("Coat Of Arms: ");
+			System.out.println("\tpng: " + i.coatOfArms.png);
+			System.out.println("\tsvg: " + i.coatOfArms.svg);
+			System.out.println("Start Of Week: " + i.startOfWeek);
+
+			if (i.capitalInfo.latlng != null) {
+				System.out.println("Capital Info: ");
+				System.out.println("\tLatitude & Longitude: ");
+				for (float l : i.capitalInfo.latlng) {
+					System.out.println("\t\t" + l);
+				}
+			}
+			if (i.postalCode != null) {
+				System.out.println("Postal Code: ");
+				System.out.println("\tRegex: " + i.postalCode.regex);
+				System.out.println("\tFormat: " + i.postalCode.format);
+			}
 
 			System.out.println(
 					"\n============================================================================================================");
@@ -151,6 +248,5 @@ public class Main {
 		Gson gson = new Gson();
 		Country[] countries = gson.fromJson(json.toString(), Country[].class);
 		return countries;
-
 	}
 }

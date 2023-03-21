@@ -20,6 +20,7 @@ public class Country {
 	HashMap<String,NativeName> translations;
 	float[] latlng;
 	boolean landlocked;
+	String[] borders;
 	float area;
 	HashMap<String,Demonym>demonyms;
 	String flag;

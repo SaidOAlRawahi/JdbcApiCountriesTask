@@ -1,49 +1,43 @@
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.Scanner;
 
 import com.google.gson.Gson;
 
 public class Main {
 	static Country[] countries;
+	static Scanner sc = new Scanner(System.in);
 
 	public static void main(String[] args) {
-		Scanner sc = new Scanner(System.in);
 		boolean programIsActive = true;
+		MainMenu mainMenu = new MainMenu();
 		while (programIsActive) {
-			System.out.println("\nSelect An Option");
-			System.out.println("1- Fetch Countries From API");
-			System.out.println("2- Print Countries From API");
-			System.out.println("3- DB Options");
-			System.out.println("4- File Options");
-			System.out.println("5- Exit");
+			mainMenu.showMenu();
 			String selection = sc.next();
 			switch (selection) {
 			case "1":
 				try {
-					countries = fetchCountriesFromJson();
+					countries = mainMenu.fetchCountriesFromJson();
 					System.out.println("Data Fetched Successfully");
+					printCountriesDetails(countries);
 				} catch (Exception e) {
 					System.out.println(e);
 				}
 				break;
 
 			case "2":
-				if (countries != null) {
-					printCountriesDetails(countries);
-				}
-				else {
-					System.out.println("There Are No Fetched Countries, Please Fetch Them First!");
-				}
+				callDatabaseOptionsMenu();
 				break;
 
 			case "3":
+				callFileOptionsMenu();
 				break;
 
 			case "4":
-				callFileOptionsMenu();
 				break;
 
 			case "5":
@@ -58,11 +52,118 @@ public class Main {
 		System.out.println("GOODBYE");
 	}
 
-	
+	private static void callDatabaseOptionsMenu() {
+		DatabaseOptionsMenu menu = new DatabaseOptionsMenu();
+		if (!DatabaseOptionsMenu.loggedIn) {
+			try {
+				menu.login();
+			} catch (Exception e) {
+				System.out.println(e);
+			}
+		}
+		
+		boolean repeatDBOptionsMenu = true;
+		while (repeatDBOptionsMenu) {
+			menu.showMenu();
+			String actionSelected = sc.next();
+			switch (actionSelected) {
+			case "1":
+				if (DatabaseOptionsMenu.loggedIn) {
+					menu.initializeDB();
+				} else {
+					System.out.println("You Should Login First");
+				}
+				break;
+
+			case "2":
+				if (DatabaseOptionsMenu.loggedIn) {
+					menu.storeCountriesToDB();
+				} else {
+					System.out.println("You Should Login First");
+				}
+				break;
+
+			case "3":
+				if (DatabaseOptionsMenu.loggedIn) {
+					menu.getCountriesFromDB();;
+				} else {
+					System.out.println("You Should Login First");
+				}
+				break;
+
+			case "4":
+				if (DatabaseOptionsMenu.loggedIn) {
+					menu.backupDB();
+				} else {
+					System.out.println("You Should Login First");
+				}
+				break;
+
+			case "5":
+				if (DatabaseOptionsMenu.loggedIn) {
+					menu.removeTablesFromDB();
+				} else {
+					System.out.println("You Should Login First");
+				}
+				break;
+
+			case "6":
+				try {
+					menu.login();
+				} catch (Exception e) {
+					System.out.println(e);
+				}
+				break;
+
+			case "7":
+				repeatDBOptionsMenu = false;
+				break;
+
+			default:
+				break;
+			}
+		}
+
+	}
+
 	static void callFileOptionsMenu() {
 		FileOptionsMenu menu = new FileOptionsMenu();
-		
-		menu.showMenu();
+		boolean repeatFileOptionsMenu = true;
+		while (repeatFileOptionsMenu) {
+			menu.showMenu();
+			String actionSelected = sc.next();
+			switch (actionSelected) {
+			case "1":
+				if (countries != null) {
+					try {
+						menu.writeCountriesInAfile(countries);
+					} catch (IOException e) {
+						System.out.println(e);
+					}
+				} else {
+					System.out.println("There are no countries to write in a file. Please Fetch some First");
+				}
+				break;
+
+			case "2":
+				try {
+					countries = menu.getCountriesFromFile();
+					printCountriesDetails(countries);
+				} catch (Exception e) {
+					System.out.println(e);
+				}
+				break;
+
+			case "3":
+				repeatFileOptionsMenu = false;
+				break;
+
+			default:
+				System.out.println("Invalid Input");
+				break;
+			}
+
+		}
 	}
 
 	static void printCountriesDetails(Country[] countries) {
@@ -74,22 +175,22 @@ public class Main {
 				continue;
 			}
 			System.out.println("Name:");
-			System.out.println("\tOfficial: " + i.name.official);
-			System.out.println("\tCommon: " + i.name.common);
+			System.out.println("   Official: " + i.name.official);
+			System.out.println("   Common: " + i.name.common);
 
 			if (i.name.nativeName != null) {
-				System.out.println("\tNative Name:");
+				System.out.println("   Native Name:");
 				for (String key : i.name.nativeName.keySet()) {
-					System.out.println("\t\t" + key + ": ");
-					System.out.println("\t\t\tOfficial: " + i.name.nativeName.get(key).official);
-					System.out.println("\t\t\tCommon: " + i.name.nativeName.get(key).common);
+					System.out.println("      " + key + ": ");
+					System.out.println("         Official: " + i.name.nativeName.get(key).official);
+					System.out.println("         Common: " + i.name.nativeName.get(key).common);
 				}
 			}
 
 			if (i.tld != null) {
 				System.out.println("TLD: ");
 				for (String tld : i.tld) {
-					System.out.println("\t" + tld);
+					System.out.println("   " + tld);
 				}
 			}
 
@@ -104,31 +205,31 @@ public class Main {
 			if (i.currencies != null) {
 				System.out.println("Currencies: ");
 				for (String key : i.currencies.keySet()) {
-					System.out.println("\t" + key + ": ");
-					System.out.println("\t\tName: " + i.currencies.get(key).name);
-					System.out.println("\t\tSymbol: " + i.currencies.get(key).symbol);
+					System.out.println("   " + key + ": ");
+					System.out.println("      Name: " + i.currencies.get(key).name);
+					System.out.println("      Symbol: " + i.currencies.get(key).symbol);
 				}
 			}
 
 			System.out.println("IDD: ");
-			System.out.println("\tRoot: " + i.idd.root);
+			System.out.println("   Root: " + i.idd.root);
 			if (i.idd.suffixes != null) {
-				System.out.println("\tSuffixes: ");
+				System.out.println("   Suffixes: ");
 				for (String s : i.idd.suffixes) {
-					System.out.println("\t\t" + s);
+					System.out.println("      " + s);
 				}
 			}
 
 			if (i.capital != null) {
 				System.out.println("Capital: ");
 				for (String c : i.capital) {
-					System.out.println("\t" + c);
+					System.out.println("   " + c);
 				}
 			}
 
 			System.out.println("Alt Spellings: ");
 			for (String s : i.altSpellings) {
-				System.out.println("\t" + s);
+				System.out.println("   " + s);
 			}
 
 			System.out.println("Region: " + i.region);
@@ -137,27 +238,27 @@ public class Main {
 			if (i.languages != null) {
 				System.out.println("Languages: ");
 				for (String key : i.languages.keySet()) {
-					System.out.println("\t" + key + ": " + i.languages.get(key));
+					System.out.println("   " + key + ": " + i.languages.get(key));
 				}
 			}
 
 			System.out.println("Translations: ");
 			for (String key : i.translations.keySet()) {
-				System.out.println("\t" + key + ": ");
-				System.out.println("\t\tOfficial: " + i.translations.get(key).official);
-				System.out.println("\t\tCommon: " + i.translations.get(key).common);
+				System.out.println("   " + key + ": ");
+				System.out.println("      Official: " + i.translations.get(key).official);
+				System.out.println("      Common: " + i.translations.get(key).common);
 			}
 
 			System.out.println("Latitude & Longitude: ");
 			for (float l : i.latlng) {
-				System.out.println("\t " + l);
+				System.out.println("    " + l);
 			}
 			System.out.println("Land Locked: " + i.landlocked);
 
 			if (i.borders != null) {
 				System.out.println("Borders: ");
 				for (String b : i.borders) {
-					System.out.println("\t" + b);
+					System.out.println("   " + b);
 				}
 			}
 			System.out.println("Area: " + i.area);
@@ -165,58 +266,58 @@ public class Main {
 			if (i.demonyms != null) {
 				System.out.println("Demonyms: ");
 				for (String key : i.demonyms.keySet()) {
-					System.out.println("\t" + key + ": ");
-					System.out.println("\t\tF: " + i.demonyms.get(key).f);
-					System.out.println("\t\tF: " + i.demonyms.get(key).f);
+					System.out.println("   " + key + ": ");
+					System.out.println("      F: " + i.demonyms.get(key).f);
+					System.out.println("      F: " + i.demonyms.get(key).f);
 				}
 			}
 
 			System.out.println("Flag: " + i.flag);
-			System.out.println("\tGoogle Maps: " + i.maps.googleMaps);
-			System.out.println("\tOpen Street Maps: " + i.maps.openStreetMaps);
+			System.out.println("   Google Maps: " + i.maps.googleMaps);
+			System.out.println("   Open Street Maps: " + i.maps.openStreetMaps);
 			System.out.println("Population: " + i.population);
 			System.out.println("Fifa: " + i.fifa);
 
 			System.out.println("Car: ");
 			if (i.car.signs != null) {
-				System.out.println("\tSigns:");
+				System.out.println("   Signs:");
 				for (String s : i.car.signs) {
-					System.out.println("\t\t" + s);
+					System.out.println("      " + s);
 				}
 			}
-			System.out.println("\tSide: " + i.car.side);
+			System.out.println("   Side: " + i.car.side);
 
 			System.out.println("Time Zones:");
 			for (String t : i.timezones) {
-				System.out.println("\t" + t);
+				System.out.println("   " + t);
 			}
 
 			System.out.println("Continents:");
 			for (String c : i.continents) {
-				System.out.println("\t" + c);
+				System.out.println("   " + c);
 			}
 
 			System.out.println("Flags: ");
-			System.out.println("\tpng: " + i.flags.png);
-			System.out.println("\tsvg: " + i.flags.svg);
-			System.out.println("\talt: " + i.flags.alt);
+			System.out.println("   png: " + i.flags.png);
+			System.out.println("   svg: " + i.flags.svg);
+			System.out.println("   alt: " + i.flags.alt);
 
 			System.out.println("Coat Of Arms: ");
-			System.out.println("\tpng: " + i.coatOfArms.png);
-			System.out.println("\tsvg: " + i.coatOfArms.svg);
+			System.out.println("   png: " + i.coatOfArms.png);
+			System.out.println("   svg: " + i.coatOfArms.svg);
 			System.out.println("Start Of Week: " + i.startOfWeek);
 
 			if (i.capitalInfo.latlng != null) {
 				System.out.println("Capital Info: ");
-				System.out.println("\tLatitude & Longitude: ");
+				System.out.println("   Latitude & Longitude: ");
 				for (float l : i.capitalInfo.latlng) {
-					System.out.println("\t\t" + l);
+					System.out.println("      " + l);
 				}
 			}
 			if (i.postalCode != null) {
 				System.out.println("Postal Code: ");
-				System.out.println("\tRegex: " + i.postalCode.regex);
-				System.out.println("\tFormat: " + i.postalCode.format);
+				System.out.println("   Regex: " + i.postalCode.regex);
+				System.out.println("   Format: " + i.postalCode.format);
 			}
 
 			System.out.println(
@@ -224,29 +325,4 @@ public class Main {
 		}
 	}
 
-	static Country[] fetchCountriesFromJson() throws Exception {
-		String apiUrl = "https://restcountries.com/v3.1/all";
-		URL url = new URL(apiUrl);
-		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-		conn.setRequestMethod("GET");
-		conn.setRequestProperty("Accept", "application/json");
-
-		if (conn.getResponseCode() != 200) {
-			throw new RuntimeException("HTTP error code : " + conn.getResponseCode());
-		}
-
-		BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
-		String output;
-		StringBuilder json = new StringBuilder();
-
-		while ((output = br.readLine()) != null) {
-			json.append(output);
-		}
-
-		conn.disconnect();
-
-		Gson gson = new Gson();
-		Country[] countries = gson.fromJson(json.toString(), Country[].class);
-		return countries;
-	}
 }

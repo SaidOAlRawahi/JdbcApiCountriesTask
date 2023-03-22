@@ -1,6 +1,11 @@
+import java.io.Serializable;
 import java.util.HashMap;
 
-public class Country {
+public class Country implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -9199354051392726252L;
 	Name name;
 	String[] tld;
 	String cca2;

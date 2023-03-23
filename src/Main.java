@@ -61,15 +61,24 @@ public class Main {
 				System.out.println(e);
 			}
 		}
-		
+
 		boolean repeatDBOptionsMenu = true;
 		while (repeatDBOptionsMenu) {
 			menu.showMenu();
 			String actionSelected = sc.next();
 			switch (actionSelected) {
+			
 			case "1":
 				if (DatabaseOptionsMenu.loggedIn) {
-					menu.initializeDB();
+					if (!DatabaseOptionsMenu.dbInitialized) {
+						try {
+							menu.initializeDB();
+						} catch (SQLException e) {
+							System.out.println(e);
+						}
+					} else {
+						System.out.println("You Already Have Initialized The Database");
+					}
 				} else {
 					System.out.println("You Should Login First");
 				}
@@ -77,7 +86,16 @@ public class Main {
 
 			case "2":
 				if (DatabaseOptionsMenu.loggedIn) {
-					menu.storeCountriesToDB();
+					if(DatabaseOptionsMenu.dbInitialized) {
+						try {
+							menu.storeCountriesToDB(countries);
+						} catch (SQLException e) {
+							System.out.println(e);
+						}
+					}
+					else {
+						System.out.println("Database Should be Initialized First");
+					}
 				} else {
 					System.out.println("You Should Login First");
 				}
@@ -85,7 +103,12 @@ public class Main {
 
 			case "3":
 				if (DatabaseOptionsMenu.loggedIn) {
-					menu.getCountriesFromDB();;
+					if(DatabaseOptionsMenu.dbInitialized) {
+						menu.getCountriesFromDB();						
+					}
+					else {
+						System.out.println("Database Should be Initialized First");
+					}
 				} else {
 					System.out.println("You Should Login First");
 				}
@@ -93,7 +116,16 @@ public class Main {
 
 			case "4":
 				if (DatabaseOptionsMenu.loggedIn) {
-					menu.backupDB();
+					if(DatabaseOptionsMenu.dbInitialized) {
+						try {
+							menu.backupDB();
+						} catch (SQLException e) {
+							System.out.println(e);
+						}						
+					}
+					else {
+						System.out.println("Database Should be Initialized First");
+					}
 				} else {
 					System.out.println("You Should Login First");
 				}
@@ -101,7 +133,16 @@ public class Main {
 
 			case "5":
 				if (DatabaseOptionsMenu.loggedIn) {
-					menu.removeTablesFromDB();
+					if(DatabaseOptionsMenu.dbInitialized) {
+						try {
+							menu.removeTablesFromDB();
+						} catch (SQLException e) {
+							System.out.println(e);
+						}						
+					}
+					else {
+						System.out.println("Database Should be Initialized First");
+					}
 				} else {
 					System.out.println("You Should Login First");
 				}

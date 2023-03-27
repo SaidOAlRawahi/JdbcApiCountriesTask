@@ -67,18 +67,16 @@ public class Main {
 			menu.showMenu();
 			String actionSelected = sc.next();
 			switch (actionSelected) {
-			
+
 			case "1":
 				if (DatabaseOptionsMenu.loggedIn) {
-					if (!DatabaseOptionsMenu.dbInitialized) {
-						try {
-							menu.initializeDB();
-						} catch (SQLException e) {
-							System.out.println(e);
-						}
-					} else {
-						System.out.println("You Already Have Initialized The Database");
+
+					try {
+						menu.initializeDB();
+					} catch (SQLException e) {
+						System.out.println(e);
 					}
+
 				} else {
 					System.out.println("You Should Login First");
 				}
@@ -86,15 +84,15 @@ public class Main {
 
 			case "2":
 				if (DatabaseOptionsMenu.loggedIn) {
-					if(DatabaseOptionsMenu.dbInitialized) {
+					if (countries != null) {
 						try {
 							menu.storeCountriesToDB(countries);
+							System.out.println("Data Is Saved Successfully In The Database");
 						} catch (SQLException e) {
 							System.out.println(e);
 						}
-					}
-					else {
-						System.out.println("Database Should be Initialized First");
+					} else {
+						System.out.println("There are no countries to write in a file. Please Fetch some First");
 					}
 				} else {
 					System.out.println("You Should Login First");
@@ -103,12 +101,8 @@ public class Main {
 
 			case "3":
 				if (DatabaseOptionsMenu.loggedIn) {
-					if(DatabaseOptionsMenu.dbInitialized) {
-						menu.getCountriesFromDB();						
-					}
-					else {
-						System.out.println("Database Should be Initialized First");
-					}
+					menu.getCountriesFromDB();
+
 				} else {
 					System.out.println("You Should Login First");
 				}
@@ -116,15 +110,10 @@ public class Main {
 
 			case "4":
 				if (DatabaseOptionsMenu.loggedIn) {
-					if(DatabaseOptionsMenu.dbInitialized) {
-						try {
-							menu.backupDB();
-						} catch (SQLException e) {
-							System.out.println(e);
-						}						
-					}
-					else {
-						System.out.println("Database Should be Initialized First");
+					try {
+						menu.backupDB();
+					} catch (SQLException e) {
+						System.out.println(e);
 					}
 				} else {
 					System.out.println("You Should Login First");
@@ -133,15 +122,10 @@ public class Main {
 
 			case "5":
 				if (DatabaseOptionsMenu.loggedIn) {
-					if(DatabaseOptionsMenu.dbInitialized) {
-						try {
-							menu.removeTablesFromDB();
-						} catch (SQLException e) {
-							System.out.println(e);
-						}						
-					}
-					else {
-						System.out.println("Database Should be Initialized First");
+					try {
+						menu.removeTablesFromDB();
+					} catch (SQLException e) {
+						System.out.println(e);
 					}
 				} else {
 					System.out.println("You Should Login First");

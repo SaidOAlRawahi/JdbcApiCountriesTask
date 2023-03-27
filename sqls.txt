@@ -1,0 +1,124 @@
+create table countries (
+	id int primary key,
+	common_name varchar(150),
+	official_name varchar(150),
+	cca2 varchar(150),
+	ccn3 varchar(150),
+	cca3 varchar(150),
+	cioc varchar(150),
+	independent bit,
+	country_status varchar(150),
+	un_member bit,
+	idd_root varchar(150),
+	region varchar(150),
+	subregion varchar(150),
+	latitude float,
+	logitude float,
+	land_locked bit,
+	area float,
+	eng_f varchar(150),
+	eng_m varchar(150),
+	fra_f varchar(150),
+	fra_m varchar(150),
+	flag varchar(150),
+	google_maps varchar(150),
+	open_street_maps varchar(150),
+	c_population int,
+	gini_year varchar(150),
+	gini_val float,
+	fifa varchar(150),
+	car_side varchar(150),
+	flag_png varchar(150),
+	flag_svg varchar(150),
+	flag_alt text,
+	coa_png varchar(150),
+	coa_svg varchar(150),
+	start_of_week varchar(150),
+	capital_lat float,
+	capital_long float,
+	postal_format varchar(150),
+	postal_regex varchar(250)
+);
+
+create table timezones(
+	id int primary key identity(1,1),
+	tz varchar(150),
+	cid int
+);
+create table car_signs(
+	id int primary key identity(1,1),
+	csign varchar(150),
+	cid int
+);
+create table borders(
+	id int primary key identity(1,1),
+	border varchar(150),
+	cid int
+);
+create table translations(
+	id int primary key identity(1,1),
+	tran_key varchar(150),
+	tran_official varchar(150),
+	tran_common varchar(150),
+	cid int
+);
+create table languages (
+	id int primary key identity(1,1),
+	lan_key varchar(150),
+	lan_name varchar(150),
+	cid int
+);
+create table alt_spellings(
+	id int primary key identity(1,1),
+	spelling varchar(150),
+	cid int
+);
+create table capitals (
+	id int primary key identity(1,1),
+	capital_name varchar(150),
+	cid int
+);
+create table native_names(
+	id int primary key identity(1,1),
+	name_key varchar(150),
+	common_namme varchar(150),
+	official_name varchar(150),
+	cid int 
+);
+create table tlds(
+	id int primary key identity(1,1),
+	tld varchar(150),
+	cid int
+);
+create table currencies(
+	id int primary key identity(1,1),
+	currency_key varchar(150),
+	currency_name varchar(150),
+	symbol varchar(150),
+	cid int
+);
+create table suffixes(
+	id int primary key identity(1,1),
+	suf varchar(150),
+	cid int
+);
+
+select * from countries
+select * from suffixes
+select * from currencies
+select * from tlds
+select * from native_names
+select * from capitals
+select * from alt_spellings
+select * from languages
+select * from translations
+select * from borders
+select * from car_signs
+select * from timezones;
+
+drop table countries,suffixes,currencies,tlds,native_names,capitals,alt_spellings,languages,translations,borders,car_signs,timezones;
+
+BACKUP DATABASE cdb
+TO DISK = 'C:\Users\Lenovo\Desktop\eclipes-workspace\Countries\backup.bak';
+
+

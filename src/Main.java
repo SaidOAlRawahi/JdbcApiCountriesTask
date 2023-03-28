@@ -101,7 +101,12 @@ public class Main {
 
 			case "3":
 				if (DatabaseOptionsMenu.loggedIn) {
-					menu.getCountriesFromDB();
+					try {
+						countries = menu.getCountriesFromDB();
+						printCountriesDetails(countries);
+					} catch (SQLException e) {
+						System.out.println(e);
+					}
 
 				} else {
 					System.out.println("You Should Login First");
@@ -317,9 +322,11 @@ public class Main {
 				System.out.println("   " + t);
 			}
 
-			System.out.println("Continents:");
-			for (String c : i.continents) {
-				System.out.println("   " + c);
+			if (i.continents != null) {
+				System.out.println("Continents:");
+				for (String c : i.continents) {
+					System.out.println("   " + c);
+				}
 			}
 
 			System.out.println("Flags: ");

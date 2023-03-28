@@ -109,12 +109,14 @@ select * from currencies
 select * from tlds
 select * from native_names
 select * from capitals
-select * from alt_spellings
+select * from alt_spellings;
 select * from languages
-select * from translations
+select * from translations;
 select * from borders
 select * from car_signs
 select * from timezones;
+
+Select * From Countries
 
 drop table countries,suffixes,currencies,tlds,native_names,capitals,alt_spellings,languages,translations,borders,car_signs,timezones;
 

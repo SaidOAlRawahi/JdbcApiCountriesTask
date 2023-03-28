@@ -96,110 +96,39 @@ class DatabaseOptionsMenu {
 
 	public void initializeDB() throws SQLException {
 		Statement st = con.createStatement();
-		String sqlQuery = "create table countries (\r\n"
-				+ "	id int primary key,\r\n"
-				+ "	common_name varchar(150),\r\n"
-				+ "	official_name varchar(150),\r\n"
-				+ "	cca2 varchar(150),\r\n"
-				+ "	ccn3 varchar(150),\r\n"
-				+ "	cca3 varchar(150),\r\n"
-				+ "	cioc varchar(150),\r\n"
-				+ "	independent bit,\r\n"
-				+ "	country_status varchar(150),\r\n"
-				+ "	un_member bit,\r\n"
-				+ "	idd_root varchar(150),\r\n"
-				+ "	region varchar(150),\r\n"
-				+ "	subregion varchar(150),\r\n"
-				+ "	latitude float,\r\n"
-				+ "	logitude float,\r\n"
-				+ "	land_locked bit,\r\n"
-				+ "	area float,\r\n"
-				+ "	eng_f varchar(150),\r\n"
-				+ "	eng_m varchar(150),\r\n"
-				+ "	fra_f varchar(150),\r\n"
-				+ "	fra_m varchar(150),\r\n"
-				+ "	flag varchar(150),\r\n"
-				+ "	google_maps varchar(150),\r\n"
-				+ "	open_street_maps varchar(150),\r\n"
-				+ "	c_population int,\r\n"
-				+ "	gini_year varchar(150),\r\n"
-				+ "	gini_val float,\r\n"
-				+ "	fifa varchar(150),\r\n"
-				+ "	car_side varchar(150),\r\n"
-				+ "	flag_png varchar(150),\r\n"
-				+ "	flag_svg varchar(150),\r\n"
-				+ "	flag_alt text,\r\n"
-				+ "	coa_png varchar(150),\r\n"
-				+ "	coa_svg varchar(150),\r\n"
-				+ "	start_of_week varchar(150),\r\n"
-				+ "	capital_lat float,\r\n"
-				+ "	capital_long float,\r\n"
-				+ "	postal_format varchar(150),\r\n"
-				+ "	postal_regex varchar(250)\r\n"
-				+ ");\r\n"
-				+ "\r\n"
-				+ "create table timezones(\r\n"
-				+ "	id int primary key identity(1,1),\r\n"
-				+ "	tz varchar(150),\r\n"
-				+ "	cid int\r\n"
-				+ ");\r\n"
-				+ "create table car_signs(\r\n"
-				+ "	id int primary key identity(1,1),\r\n"
-				+ "	csign varchar(150),\r\n"
-				+ "	cid int\r\n"
-				+ ");\r\n"
-				+ "create table borders(\r\n"
-				+ "	id int primary key identity(1,1),\r\n"
-				+ "	border varchar(150),\r\n"
-				+ "	cid int\r\n"
-				+ ");\r\n"
-				+ "create table translations(\r\n"
-				+ "	id int primary key identity(1,1),\r\n"
-				+ "	tran_key varchar(150),\r\n"
-				+ "	tran_official varchar(150),\r\n"
-				+ "	tran_common varchar(150),\r\n"
-				+ "	cid int\r\n"
-				+ ");\r\n"
-				+ "create table languages (\r\n"
-				+ "	id int primary key identity(1,1),\r\n"
-				+ "	lan_key varchar(150),\r\n"
-				+ "	lan_name varchar(150),\r\n"
-				+ "	cid int\r\n"
-				+ ");\r\n"
-				+ "create table alt_spellings(\r\n"
-				+ "	id int primary key identity(1,1),\r\n"
-				+ "	spelling varchar(150),\r\n"
-				+ "	cid int\r\n"
-				+ ");\r\n"
-				+ "create table capitals (\r\n"
-				+ "	id int primary key identity(1,1),\r\n"
-				+ "	capital_name varchar(150),\r\n"
-				+ "	cid int\r\n"
-				+ ");\r\n"
-				+ "create table native_names(\r\n"
-				+ "	id int primary key identity(1,1),\r\n"
-				+ "	name_key varchar(150),\r\n"
-				+ "	common_namme varchar(150),\r\n"
-				+ "	official_name varchar(150),\r\n"
-				+ "	cid int \r\n"
-				+ ");\r\n"
-				+ "create table tlds(\r\n"
-				+ "	id int primary key identity(1,1),\r\n"
-				+ "	tld varchar(150),\r\n"
-				+ "	cid int\r\n"
-				+ ");\r\n"
-				+ "create table currencies(\r\n"
-				+ "	id int primary key identity(1,1),\r\n"
-				+ "	currency_key varchar(150),\r\n"
-				+ "	currency_name varchar(150),\r\n"
-				+ "	symbol varchar(150),\r\n"
-				+ "	cid int\r\n"
-				+ ");\r\n"
-				+ "create table suffixes(\r\n"
-				+ "	id int primary key identity(1,1),\r\n"
-				+ "	suf varchar(150),\r\n"
-				+ "	cid int\r\n"
-				+ ");";
+		String sqlQuery = "create table countries (\r\n" + "	id int primary key,\r\n"
+				+ "	common_name varchar(150),\r\n" + "	official_name varchar(150),\r\n" + "	cca2 varchar(150),\r\n"
+				+ "	ccn3 varchar(150),\r\n" + "	cca3 varchar(150),\r\n" + "	cioc varchar(150),\r\n"
+				+ "	independent bit,\r\n" + "	country_status varchar(150),\r\n" + "	un_member bit,\r\n"
+				+ "	idd_root varchar(150),\r\n" + "	region varchar(150),\r\n" + "	subregion varchar(150),\r\n"
+				+ "	latitude float,\r\n" + "	logitude float,\r\n" + "	land_locked bit,\r\n" + "	area float,\r\n"
+				+ "	eng_f varchar(150),\r\n" + "	eng_m varchar(150),\r\n" + "	fra_f varchar(150),\r\n"
+				+ "	fra_m varchar(150),\r\n" + "	flag varchar(150),\r\n" + "	google_maps varchar(150),\r\n"
+				+ "	open_street_maps varchar(150),\r\n" + "	c_population int,\r\n" + "	gini_year varchar(150),\r\n"
+				+ "	gini_val float,\r\n" + "	fifa varchar(150),\r\n" + "	car_side varchar(150),\r\n"
+				+ "	flag_png varchar(150),\r\n" + "	flag_svg varchar(150),\r\n" + "	flag_alt text,\r\n"
+				+ "	coa_png varchar(150),\r\n" + "	coa_svg varchar(150),\r\n" + "	start_of_week varchar(150),\r\n"
+				+ "	capital_lat float,\r\n" + "	capital_long float,\r\n" + "	postal_format varchar(150),\r\n"
+				+ "	postal_regex varchar(250)\r\n" + ");\r\n" + "\r\n" + "create table timezones(\r\n"
+				+ "	id int primary key identity(1,1),\r\n" + "	tz varchar(150),\r\n" + "	cid int\r\n" + ");\r\n"
+				+ "create table car_signs(\r\n" + "	id int primary key identity(1,1),\r\n" + "	csign varchar(150),\r\n"
+				+ "	cid int\r\n" + ");\r\n" + "create table borders(\r\n" + "	id int primary key identity(1,1),\r\n"
+				+ "	border varchar(150),\r\n" + "	cid int\r\n" + ");\r\n" + "create table translations(\r\n"
+				+ "	id int primary key identity(1,1),\r\n" + "	tran_key varchar(150),\r\n"
+				+ "	tran_official varchar(150),\r\n" + "	tran_common varchar(150),\r\n" + "	cid int\r\n" + ");\r\n"
+				+ "create table languages (\r\n" + "	id int primary key identity(1,1),\r\n"
+				+ "	lan_key varchar(150),\r\n" + "	lan_name varchar(150),\r\n" + "	cid int\r\n" + ");\r\n"
+				+ "create table alt_spellings(\r\n" + "	id int primary key identity(1,1),\r\n"
+				+ "	spelling varchar(150),\r\n" + "	cid int\r\n" + ");\r\n" + "create table capitals (\r\n"
+				+ "	id int primary key identity(1,1),\r\n" + "	capital_name varchar(150),\r\n" + "	cid int\r\n"
+				+ ");\r\n" + "create table native_names(\r\n" + "	id int primary key identity(1,1),\r\n"
+				+ "	name_key varchar(150),\r\n" + "	common_namme varchar(150),\r\n" + "	official_name varchar(150),\r\n"
+				+ "	cid int \r\n" + ");\r\n" + "create table tlds(\r\n" + "	id int primary key identity(1,1),\r\n"
+				+ "	tld varchar(150),\r\n" + "	cid int\r\n" + ");\r\n" + "create table currencies(\r\n"
+				+ "	id int primary key identity(1,1),\r\n" + "	currency_key varchar(150),\r\n"
+				+ "	currency_name varchar(150),\r\n" + "	symbol varchar(150),\r\n" + "	cid int\r\n" + ");\r\n"
+				+ "create table suffixes(\r\n" + "	id int primary key identity(1,1),\r\n" + "	suf varchar(150),\r\n"
+				+ "	cid int\r\n" + ");";
 		st.executeUpdate(sqlQuery);
 		System.out.println("Database is initialized successfully");
 	}
@@ -211,12 +140,15 @@ class DatabaseOptionsMenu {
 						+ "coa_png,coa_svg,start_of_week,capital_lat,capital_long,postal_format,postal_regex,id) "
 						+ "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 		PreparedStatement st2 = con.prepareStatement("INSERT INTO suffixes (suf,cid) VALUES (?,?)");
-		PreparedStatement st3 = con.prepareStatement("INSERT INTO currencies (currency_key,currency_name,symbol,cid) VALUES (?,?,?,?)");
+		PreparedStatement st3 = con
+				.prepareStatement("INSERT INTO currencies (currency_key,currency_name,symbol,cid) VALUES (?,?,?,?)");
 		PreparedStatement st4 = con.prepareStatement("INSERT INTO tlds (tld,cid) VALUES (?,?)");
-		PreparedStatement st5 = con.prepareStatement("INSERT INTO native_names (name_key,common_namme,official_name,cid) VALUES (?,?,?,?)");
+		PreparedStatement st5 = con.prepareStatement(
+				"INSERT INTO native_names (name_key,common_namme,official_name,cid) VALUES (?,?,?,?)");
 		PreparedStatement st6 = con.prepareStatement("INSERT INTO capitals (capital_name,cid) VALUES (?,?)");
 		PreparedStatement st7 = con.prepareStatement("INSERT INTO alt_spellings (spelling,cid) VALUES (?,?)");
-		for (int i = 0; i<countries.length; i++) {
+		PreparedStatement st8 = con.prepareStatement("INSERT INTO languages (lan_key,lan_name,cid) VALUES (?,?,?)");
+		for (int i = 0; i < countries.length; i++) {
 			st.setInt(39, i);
 			st.setString(1, countries[i].name.common);
 			st.setString(2, countries[i].name.official);
@@ -270,53 +202,60 @@ class DatabaseOptionsMenu {
 				st.setString(38, countries[i].postalCode.regex);
 			}
 			st.addBatch();
-			
-			if(countries[i].idd.suffixes!=null)
-			for(int j = 0; j<countries[i].idd.suffixes.length;j++) {
-				st2.setString(1, countries[i].idd.suffixes[j]);
-				st2.setInt(2, i);
-				st2.addBatch();
-			}
-			
-			if(countries[i].currencies!=null)
-			for(String key : countries[i].currencies.keySet()) {
-				st3.setString(1, key);
-				st3.setString(2, countries[i].currencies.get(key).name);
-				st3.setString(3, countries[i].currencies.get(key).symbol);
-				st3.setInt(4, i);
-				st3.addBatch();
-			}
 
-			if(countries[i].tld!=null)
-			for(String tld : countries[i].tld) {
-				st4.setString(1, tld);
-				st4.setInt(2, i);
-				st4.addBatch();
-			}
-			
-			if(countries[i].name.nativeName!=null)
-			for(String key: countries[i].name.nativeName.keySet()) {
-				st5.setString(1, key);
-				st5.setNString(2, countries[i].name.nativeName.get(key).common);
-				st5.setNString(3, countries[i].name.nativeName.get(key).official);
-				st5.setInt(4, i);
-				st5.addBatch();
-			}
-			
-			if(countries[i].capital!=null)
-			for(String c: countries[i].capital) {
-				st6.setString(1, c);
-				st6.setInt(2, i);
-				st6.addBatch();
-			}
-			
-			if(countries[i].altSpellings!=null)
-				for(String alt: countries[i].altSpellings) {
+			if (countries[i].idd.suffixes != null)
+				for (int j = 0; j < countries[i].idd.suffixes.length; j++) {
+					st2.setString(1, countries[i].idd.suffixes[j]);
+					st2.setInt(2, i);
+					st2.addBatch();
+				}
+
+			if (countries[i].currencies != null)
+				for (String key : countries[i].currencies.keySet()) {
+					st3.setString(1, key);
+					st3.setString(2, countries[i].currencies.get(key).name);
+					st3.setString(3, countries[i].currencies.get(key).symbol);
+					st3.setInt(4, i);
+					st3.addBatch();
+				}
+
+			if (countries[i].tld != null)
+				for (String tld : countries[i].tld) {
+					st4.setString(1, tld);
+					st4.setInt(2, i);
+					st4.addBatch();
+				}
+
+			if (countries[i].name.nativeName != null)
+				for (String key : countries[i].name.nativeName.keySet()) {
+					st5.setString(1, key);
+					st5.setNString(2, countries[i].name.nativeName.get(key).common);
+					st5.setNString(3, countries[i].name.nativeName.get(key).official);
+					st5.setInt(4, i);
+					st5.addBatch();
+				}
+
+			if (countries[i].capital != null)
+				for (String c : countries[i].capital) {
+					st6.setString(1, c);
+					st6.setInt(2, i);
+					st6.addBatch();
+				}
+
+			if (countries[i].altSpellings != null)
+				for (String alt : countries[i].altSpellings) {
 					st7.setString(1, alt);
 					st7.setInt(2, i);
 					st7.addBatch();
 				}
 			
+			if(countries[i].languages!=null)
+				for (String key: countries[i].languages.keySet()) {
+					st8.setString(1, key);
+					st8.setString(2, countries[i].languages.get(key));
+					st8.setInt(3, i);
+					st8.addBatch();
+				}
 		}
 		st.executeBatch();
 		st2.executeBatch();
@@ -325,6 +264,7 @@ class DatabaseOptionsMenu {
 		st5.executeBatch();
 		st6.executeBatch();
 		st7.executeBatch();
+		st8.executeBatch();
 	}
 
 	public void getCountriesFromDB() {
